@@ -11,9 +11,16 @@
     "dev": "node scripts/serve.mjs",
     "build": "node scripts/build.mjs",
     "preview": "node scripts/serve.mjs dist",
-    "test": "playwright test"
+    "test": "playwright test",
+    "test:worker": "node --test worker/tests/*.test.js",
+    "worker:check": "wrangler deploy --config worker/wrangler.json --dry-run --outdir ../worker-dist",
+    "worker:config": "node scripts/worker-config.mjs",
+    "worker:dev": "wrangler dev --config worker/wrangler.json"
   },
   "devDependencies": {
-    "@playwright/test": "1.63.0"
+    "@playwright/test": "1.63.0",
+    "miniflare": "5.20260926.1-alpha",
+    "undici": "7.29.1",
+    "wrangler": "4.144.0"
   }
 }

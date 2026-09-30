@@ -1,0 +1,28 @@
+{
+  "$schema": "../node_modules/wrangler/config-schema.json",
+  "name": "ute-studio-newsletter",
+  "main": "src/index.js",
+  "compatibility_date": "2026-06-11",
+  "workers_dev": false,
+  "preview_urls": false,
+  "routes": [
+    { "pattern": "www.ute.studio/api/newsletter/*", "zone_name": "ute.studio" }
+  ],
+  "vars": {
+    "ENABLED": "false",
+    "SITE_ORIGIN": "https://www.ute.studio",
+    "NEWSLETTER_FROM": "UTE Studio <news@ute.studio>",
+    "NEWSLETTER_REPLY_TO": "contact@ute.studio",
+    "RESEND_SEGMENT_ID": ""
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "ute-studio-newsletter",
+      "database_id": "00000000-0000-0000-0000-000000000000",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "triggers": { "crons": ["15 17 * * *"] },
+  "observability": { "enabled": false }
+}

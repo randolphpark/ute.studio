@@ -6,3 +6,8 @@ playwright-report/
 .env
 .env.*
 !.env.example
+.dev.vars
+.dev.vars.*
+.wrangler/
+worker/wrangler.generated.json
+worker-dist/
