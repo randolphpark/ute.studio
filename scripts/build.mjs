@@ -19,6 +19,13 @@ await cp(source, output, { recursive: true });
 await writeFile(join(output, ".nojekyll"), "");
 
 let html = await readFile(join(output, "index.html"), "utf8");
+const newsletterSiteKey = process.env.NEWSLETTER_SITE_KEY || "";
+if (newsletterSiteKey && !/^[A-Za-z0-9_-]{20,100}$/.test(newsletterSiteKey))
+  throw new Error("NEWSLETTER_SITE_KEY must be a public Turnstile site key");
+html = html.replace(
+  'data-newsletter-sitekey=""',
+  `data-newsletter-sitekey="${newsletterSiteKey}"`,
+);
 const ids = [...html.matchAll(/\bid="([^"]+)"/g)].map((match) => match[1]);
 if (new Set(ids).size !== ids.length) throw new Error("Duplicate HTML IDs");
 const refs = [...html.matchAll(/\b(?:src|href|srcset)="([^"]+)"/g)].map(
@@ -51,6 +58,7 @@ if (!html.includes("mailto:contact@ute.studio"))
 for (const asset of [
   "styles.css",
   "app.js",
+  "newsletter.js",
   "assets/ute-studio-logo.svg",
   "assets/favicon.svg",
 ]) {

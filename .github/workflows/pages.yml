@@ -27,6 +27,10 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build
+        env:
+          NEWSLETTER_SITE_KEY: ${{ vars.NEWSLETTER_ENABLED == 'true' && vars.NEWSLETTER_SITE_KEY || '' }}
+      - run: npm run test:worker
+      - run: npm run worker:check
       - run: npx playwright install --with-deps chromium
       - run: npm test
       - name: Upload browser failure traces

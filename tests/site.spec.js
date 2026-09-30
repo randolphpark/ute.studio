@@ -1,5 +1,15 @@
 import { test, expect } from "@playwright/test";
 
+// Browser checks never depend on a real CAPTCHA or send email.
+test.beforeEach(async ({ page }) => {
+  await page.route("https://challenges.cloudflare.com/turnstile/**", (route) =>
+    route.fulfill({
+      contentType: "application/javascript",
+      body: "window.turnstile = { render() { return 'test-widget'; }, reset() {} };",
+    }),
+  );
+});
+
 test("landing page loads its assets and fits the viewport", async ({
   page,
 }) => {
@@ -46,14 +56,25 @@ test("every campaign opens the right preview, image, and enquiry", async ({
     await expect(dialog).toBeVisible();
     await expect(dialog.getByRole("heading")).toHaveText(title);
     await expect(dialog).toContainText("Self-initiated AI visual concept");
-    await expect(dialog.locator("img")).toHaveAttribute("src", `assets/${image}`);
-    await expect.poll(() => dialog.locator("img").evaluate(
-      (img) => img.complete && img.naturalWidth > 0,
-    )).toBeTruthy();
-    const enquiry = new URL(await dialog.getByRole("link").getAttribute("href"));
+    await expect(dialog.locator("img")).toHaveAttribute(
+      "src",
+      `assets/${image}`,
+    );
+    await expect
+      .poll(() =>
+        dialog
+          .locator("img")
+          .evaluate((img) => img.complete && img.naturalWidth > 0),
+      )
+      .toBeTruthy();
+    const enquiry = new URL(
+      await dialog.getByRole("link").getAttribute("href"),
+    );
     expect(enquiry.protocol).toBe("mailto:");
     expect(enquiry.pathname).toBe("contact@ute.studio");
-    expect(enquiry.searchParams.get("subject")).toBe(`Project enquiry: ${title}`);
+    expect(enquiry.searchParams.get("subject")).toBe(
+      `Project enquiry: ${title}`,
+    );
     if (key === "toolbox")
       await page.getByRole("button", { name: "Close project details" }).click();
     else await page.keyboard.press("Escape");
@@ -68,8 +89,15 @@ test("every page link reaches real content or the published enquiry address", as
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("./");
   const links = page.locator("a[href]");
-  const sectionTargets = ["#top", "#main", "#work", "#studio", "#services", "#contact"];
-  for (let index = 0; index < await links.count(); index++) {
+  const sectionTargets = [
+    "#top",
+    "#main",
+    "#work",
+    "#studio",
+    "#services",
+    "#contact",
+  ];
+  for (let index = 0; index < (await links.count()); index++) {
     const link = links.nth(index);
     const href = await link.getAttribute("href");
     if (href.startsWith("mailto:")) {
@@ -78,7 +106,10 @@ test("every page link reaches real content or the published enquiry address", as
       continue;
     }
     expect(sectionTargets).toContain(href);
-    if (testInfo.project.name === "mobile" && await link.evaluate((el) => !!el.closest("nav")))
+    if (
+      testInfo.project.name === "mobile" &&
+      (await link.evaluate((el) => !!el.closest("nav")))
+    )
       await page.getByRole("button", { name: "Menu" }).click();
     await link.focus();
     await link.click();

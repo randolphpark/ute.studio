@@ -17,6 +17,8 @@ Open `http://127.0.0.1:4173/ute.studio/`. Relative asset URLs support both this 
 
 ```sh
 npm run build
+npm run test:worker
+npm run worker:check
 npx playwright install chromium
 npm test
 npm run preview
@@ -58,7 +60,15 @@ gh run list --workflow pages.yml
 
 The work shown is self-initiated illustrative concept work. It is not presented as commissioned work for Stonegate Industries, MW Toolbox or other clients. The toolbox visual is an AI-generated study for possible 3D art direction, not a claim of a finished 3D production.
 
-Barlow Condensed and Manrope are distributed under the SIL Open Font License; their licence files are included beside the fonts. The application sets no cookies and loads fonts locally. Production uses Cloudflare Web Analytics as described below. Contact links open the visitor's email application; there is no form backend. `contact@ute.studio` has an enabled Cloudflare Email Routing rule; email delivery has not been tested by sending a message.
+Barlow Condensed and Manrope are distributed under the SIL Open Font License; their licence files are included beside the fonts. The application sets no cookies and loads fonts locally. Production uses Cloudflare Web Analytics as described below. Contact links open the visitor's email application. The optional Field Notes signup uses a separate Cloudflare Worker and Resend, as described below. `contact@ute.studio` has an enabled Cloudflare Email Routing rule; email delivery has not been tested by sending a message.
+
+## Newsletter
+
+UTE Studio Field Notes uses `news@ute.studio` as its sender and `contact@ute.studio` for replies. The website subscription form sends requests to a Cloudflare Worker, which verifies Turnstile, sends a confirmation email, and adds the reader to a Resend Segment only after they confirm. D1 stores expiring confirmation requests and consent receipts. Resend manages the mailing list and unsubscribe preferences; actual campaigns are reviewed and sent from its Broadcasts dashboard.
+
+Signup stays hidden until a public `NEWSLETTER_SITE_KEY` is supplied at build time. Production uses repository variables `NEWSLETTER_ENABLED=true` and `NEWSLETTER_SITE_KEY` after account setup. API secrets belong in GitHub environment/Worker secrets, never in the website. Worker deployment is a separate manual workflow restricted to `main`; PR checks never deploy it or send email.
+
+See [the setup and operations guide](docs/newsletter.md) for Resend domain verification, Cloudflare bindings, secrets, deployment and launch checks. The Worker, D1 migrations and integration tests live in `worker/`. Tests use mocked providers, so live email delivery still needs verification with an authorized test recipient.
 
 ## Custom domain
 

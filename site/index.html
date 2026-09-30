@@ -19,10 +19,7 @@
       property="og:description"
       content="Big ideas. Hard-working content. AI-powered design, video and 3D for ute, trade and touring brands."
     />
-    <meta
-      property="og:url"
-      content="https://www.ute.studio/"
-    />
+    <meta property="og:url" content="https://www.ute.studio/" />
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
     <link
       rel="preload"
@@ -40,6 +37,7 @@
     />
     <link rel="stylesheet" href="styles.css" />
     <script src="app.js" defer></script>
+    <script src="newsletter.js" defer></script>
   </head>
   <body id="top">
     <a class="skip-link" href="#main">Skip to content</a>
@@ -438,6 +436,85 @@
       </section>
 
       <section
+        class="newsletter-section wrap"
+        id="newsletter"
+        aria-labelledby="newsletter-title"
+        data-newsletter-sitekey=""
+        hidden
+      >
+        <div class="newsletter-copy">
+          <p class="eyebrow">UTE STUDIO / FIELD NOTES</p>
+          <h2 id="newsletter-title">
+            GOOD IDEAS.<br /><span>STRAIGHT TO YOU.</span>
+          </h2>
+          <p>
+            Fresh creative, AI experiments and product stories for ute, trade
+            and touring brands. A little inspiration for your next move.
+          </p>
+          <span class="newsletter-frequency"
+            >OCCASIONAL EMAILS. ALWAYS SOMETHING USEFUL.</span
+          >
+        </div>
+        <form
+          class="newsletter-form"
+          aria-label="Subscribe to Field Notes"
+          method="post"
+          action="/api/newsletter/subscribe"
+        >
+          <label for="newsletter-email">Your email address</label>
+          <input
+            id="newsletter-email"
+            name="email"
+            type="email"
+            autocomplete="email"
+            maxlength="254"
+            placeholder="you@yourcompany.com"
+            required
+            aria-describedby="newsletter-status newsletter-privacy"
+          />
+          <label class="newsletter-consent"
+            ><input type="checkbox" name="consent" required /><span
+              >I’d like to receive UTE Studio Field Notes. I can unsubscribe at
+              any time.</span
+            ></label
+          >
+          <div class="newsletter-trap" aria-hidden="true">
+            <label for="newsletter-website">Leave this empty</label
+            ><input
+              id="newsletter-website"
+              name="website"
+              type="text"
+              tabindex="-1"
+              autocomplete="off"
+            />
+          </div>
+          <div id="newsletter-challenge"></div>
+          <button class="button" type="submit" disabled>
+            Subscribe to Field Notes <span aria-hidden="true">↗</span>
+          </button>
+          <p
+            id="newsletter-status"
+            class="newsletter-status"
+            role="status"
+            aria-live="polite"
+          >
+            Loading the security check…
+          </p>
+          <details class="newsletter-privacy" id="newsletter-privacy">
+            <summary>How we use your email</summary>
+            <p>
+              UTE Studio uses your email to confirm your subscription and send
+              Field Notes through Resend. Cloudflare processes signup and
+              security checks. We don’t sell your address. Unconfirmed requests
+              expire after 24 hours; confirmation records are kept for up to two
+              years. Every newsletter includes an unsubscribe link. For access
+              or deletion requests, email contact@ute.studio.
+            </p>
+          </details>
+        </form>
+      </section>
+
+      <section
         class="contact-section"
         id="contact"
         aria-labelledby="contact-title"
@@ -466,7 +543,9 @@
               what you’re working on.
             </p>
             <div>
-              <a class="email-link" href="mailto:contact@ute.studio"
+              <a
+                class="email-link"
+                href="mailto:contact@ute.studio"
                 aria-describedby="email-help"
                 >contact@ute.studio <span aria-hidden="true">↗</span></a
               >
