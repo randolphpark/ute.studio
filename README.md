@@ -11,7 +11,7 @@ npm ci
 npm run dev
 ```
 
-Open `http://127.0.0.1:4173/ute.studio/`. The same project path is used locally and on GitHub Pages. Edit files in `site/` and refresh the page.
+Open `http://127.0.0.1:4173/ute.studio/`. Relative asset URLs support both this local project path and the production domain root. Edit files in `site/` and refresh the page.
 
 ## Build and verify
 
@@ -28,7 +28,7 @@ The build copies only `site/` into `dist/`, adds `.nojekyll`, and validates loca
 
 `.github/workflows/pages.yml` validates every pull request targeting `main`. Pushes to `main` and manual workflow runs build, test, upload the static artifact and deploy it to the `github-pages` environment. Deployment runs only after browser checks pass. No personal access token or external hosting account is needed by the workflow.
 
-The expected URL is **https://randolphpark.github.io/ute.studio/**.
+The production URL is **https://www.ute.studio/**. GitHub Pages redirects the original project URL, `https://randolphpark.github.io/ute.studio/`, to the custom domain.
 
 In repository **Settings → Pages**, select **GitHub Actions** as the publishing source. GitHub Pages must be enabled before the deployment job can succeed. A private repository requires a GitHub plan that supports Pages; alternatively, the repository owner can choose to make the repository public. Repository visibility is not changed by the workflow.
 
@@ -55,4 +55,16 @@ Barlow Condensed and Manrope are distributed under the SIL Open Font License; th
 
 ## Custom domain
 
-The initial deployment uses the GitHub project URL. To use `ute.studio`, configure that domain in GitHub Pages and its DNS provider, then update the canonical and Open Graph URLs in `site/index.html`, `site/robots.txt` and `site/sitemap.xml`. Add `site/CNAME` only after domain ownership and DNS are configured.
+The repository's GitHub Pages custom domain is `www.ute.studio`. Cloudflare manages the following records with **DNS only** (proxy disabled) and automatic TTL:
+
+| Type | Name | Target |
+| --- | --- | --- |
+| CNAME | www | randolphpark.github.io |
+| A | @ | 185.199.108.153 |
+| A | @ | 185.199.109.153 |
+| A | @ | 185.199.110.153 |
+| A | @ | 185.199.111.153 |
+
+GitHub Pages manages the HTTPS certificate and redirects `ute.studio` to `www.ute.studio`. Enable **Enforce HTTPS** in the repository's Pages settings once the certificate is available. Cloudflare SSL and redirect settings do not apply to these DNS-only records. Preserve the existing email MX and TXT records.
+
+Canonical and Open Graph URLs, `site/robots.txt`, and `site/sitemap.xml` use the production domain. This project publishes through GitHub Actions, so the custom domain is stored in Pages settings; a `CNAME` file is not required.
