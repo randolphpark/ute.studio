@@ -41,10 +41,10 @@
     <link rel="stylesheet" href="styles.css" />
     <script src="app.js" defer></script>
   </head>
-  <body>
+  <body id="top">
     <a class="skip-link" href="#main">Skip to content</a>
     <header class="site-header wrap">
-      <a class="wordmark" href="#" aria-label="UTE Studio home"
+      <a class="wordmark" href="#top" aria-label="UTE Studio home"
         >ute<span class="logo-dot">.</span
         ><span class="wordmark-studio">studio</span
         ><svg class="brand-spark" viewBox="0 0 32 32" aria-hidden="true">
@@ -173,6 +173,9 @@
           <article class="work-card work-featured">
             <button
               class="work-image"
+              type="button"
+              aria-haspopup="dialog"
+              aria-controls="project-dialog"
               data-project="workhorse"
               aria-label="View The everyday workhorse campaign concept"
             >
@@ -199,6 +202,9 @@
           <article class="work-card">
             <button
               class="work-image toolbox-image"
+              type="button"
+              aria-haspopup="dialog"
+              aria-controls="project-dialog"
               data-project="toolbox"
               aria-label="View Every detail earns its place product concept"
             >
@@ -222,6 +228,9 @@
           <article class="work-card">
             <button
               class="work-image"
+              type="button"
+              aria-haspopup="dialog"
+              aria-controls="project-dialog"
               data-project="touring"
               aria-label="View Clock off. Head out. touring concept"
             >
@@ -448,6 +457,8 @@
           </div>
           <a
             class="contact-title-link"
+            aria-label="Email UTE Studio about a project"
+            aria-describedby="email-help"
             href="mailto:contact@ute.studio?subject=Let%E2%80%99s%20make%20something%20move"
             ><h2 id="contact-title">
               LET’S MAKE<br />SOMETHING <span>MOVE.</span>
@@ -459,21 +470,25 @@
               A product launch. A fresh direction. A better feed.<br />Tell us
               what you’re working on.
             </p>
-            <a class="email-link" href="mailto:contact@ute.studio"
-              >contact@ute.studio <span aria-hidden="true">↗</span></a
-            >
+            <div>
+              <a class="email-link" href="mailto:contact@ute.studio"
+                aria-describedby="email-help"
+                >contact@ute.studio <span aria-hidden="true">↗</span></a
+              >
+              <p id="email-help" class="email-help">Opens your email app.</p>
+            </div>
           </div>
         </div>
       </section>
     </main>
     <footer class="site-footer wrap">
-      <a class="wordmark" href="#" aria-label="UTE Studio back to top"
+      <a class="wordmark" href="#top" aria-label="UTE Studio back to top"
         >ute<span class="logo-dot">.</span
         ><span class="wordmark-studio">studio</span></a
       >
       <p>AI-powered. Human-directed. Built to work.</p>
       <span>© <span id="year">2026</span> UTE STUDIO</span
-      ><a href="#" class="back-top">BACK TO TOP ↑</a>
+      ><a href="#top" class="back-top">BACK TO TOP ↑</a>
     </footer>
 
     <dialog id="project-dialog" aria-labelledby="project-title">
@@ -500,9 +515,10 @@
           commissioned client work or a product specification.
         </p>
         <a
+          id="project-enquiry"
           class="button"
           href="mailto:contact@ute.studio?subject=Let%E2%80%99s%20discuss%20a%20campaign"
-          >Make something like this <span aria-hidden="true">↗</span></a
+          >Email us about this concept <span aria-hidden="true">↗</span></a
         >
       </div>
     </dialog>

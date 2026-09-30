@@ -22,7 +22,7 @@ npm test
 npm run preview
 ```
 
-The build copies only `site/` into `dist/`, adds `.nojekyll`, and validates local assets and section links. Playwright checks desktop and mobile layouts, image loading, JavaScript errors, project dialogs, keyboard dismissal, navigation, service panels and the enquiry link.
+The build copies only `site/` into `dist/`, adds `.nojekyll`, and validates local assets and section links. It rejects empty links, bare `#` placeholders, insecure HTTP URLs and unsupported URL schemes. Playwright checks every navigation link, all three project previews and their images and enquiry addresses, all four service panels, keyboard dismissal, desktop and mobile layouts, asset loading and JavaScript errors. New link destinations must be covered by these checks before deployment.
 
 ## GitHub Pages deployment
 
@@ -51,11 +51,11 @@ gh run list --workflow pages.yml
 
 The work shown is self-initiated illustrative concept work. It is not presented as commissioned work for Stonegate Industries, MW Toolbox or other clients. The toolbox visual is an AI-generated study for possible 3D art direction, not a claim of a finished 3D production.
 
-Barlow Condensed and Manrope are distributed under the SIL Open Font License; their licence files are included beside the fonts. The landing page uses no analytics, cookies or external font requests. Contact links open the visitor's email application; there is no form backend or promise that the mailbox has been provisioned.
+Barlow Condensed and Manrope are distributed under the SIL Open Font License; their licence files are included beside the fonts. The application sets no cookies and loads fonts locally. Production uses Cloudflare Web Analytics as described below. Contact links open the visitor's email application; there is no form backend. `contact@ute.studio` has an enabled Cloudflare Email Routing rule; email delivery has not been tested by sending a message.
 
 ## Custom domain
 
-The repository's GitHub Pages custom domain is `www.ute.studio`. Cloudflare manages the following records with **DNS only** (proxy disabled) and automatic TTL:
+The repository's GitHub Pages custom domain is `www.ute.studio`. Cloudflare manages the following records with **Proxied** enabled (orange cloud) and automatic TTL:
 
 | Type | Name | Target |
 | --- | --- | --- |
@@ -65,6 +65,14 @@ The repository's GitHub Pages custom domain is `www.ute.studio`. Cloudflare mana
 | A | @ | 185.199.110.153 |
 | A | @ | 185.199.111.153 |
 
-GitHub Pages manages the HTTPS certificate and redirects `ute.studio` to `www.ute.studio`. Enable **Enforce HTTPS** in the repository's Pages settings once the certificate is available. Cloudflare SSL and redirect settings do not apply to these DNS-only records. Preserve the existing email MX and TXT records.
+Cloudflare serves its Universal SSL certificate for `ute.studio` and `*.ute.studio`, uses **Full (strict)** encryption to GitHub Pages, and enforces **Always Use HTTPS**. The `UTE Studio canonical domain` Single Redirect rule sends `ute.studio` to `https://www.ute.studio`, preserving paths and query strings. It excludes `/.well-known/acme-challenge/` so certificate validation requests can reach the origin. Existing email MX and TXT records remain DNS-only.
+
+HTTPS enforcement is handled by Cloudflare. Keep the web records proxied: direct HTTPS access to GitHub Pages with the custom hostname also requires a GitHub-issued certificate, which is a separate certificate from Cloudflare's edge certificate. If switching to DNS-only, first verify that GitHub Pages has issued its certificate and enabled **Enforce HTTPS**.
 
 Canonical and Open Graph URLs, `site/robots.txt`, and `site/sitemap.xml` use the production domain. This project publishes through GitHub Actions, so the custom domain is stored in Pages settings; a `CNAME` file is not required.
+
+## Web analytics
+
+Cloudflare Web Analytics is enabled for the `ute.studio` zone with automatic installation. Cloudflare injects the beacon into production HTML served through its proxy; local previews and GitHub's origin HTML do not contain an analytics script. Do not add another beacon to `site/index.html`, as that would duplicate collection.
+
+View traffic and performance in the Cloudflare account's **Web Analytics → ute.studio** dashboard. Analytics uses Cloudflare's cookie-free Web Analytics service, with the beacon loaded from `static.cloudflareinsights.com` and measurements sent to the site's `/cdn-cgi/rum` endpoint. Dashboard data may take a few minutes to appear. Automatic installation requires the website DNS records to remain proxied.

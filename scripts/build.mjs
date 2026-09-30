@@ -24,6 +24,10 @@ const refs = [...html.matchAll(/\b(?:src|href|srcset)="([^"]+)"/g)].map(
   (match) => match[1],
 );
 for (const ref of refs) {
+  if (!ref.trim() || ref === "#")
+    throw new Error("Empty or placeholder link: use a real destination");
+  if (/^[a-z][a-z\d+.-]*:/i.test(ref) && !/^(?:https:|mailto:|data:)/.test(ref))
+    throw new Error(`Unsupported or insecure URL: ${ref}`);
   if (/^(?:https?:|mailto:|data:)/.test(ref)) continue;
   if (ref.startsWith("#")) {
     if (ref.length > 1 && !ids.includes(ref.slice(1)))

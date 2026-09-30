@@ -870,6 +870,10 @@ details[open] .expand-icon::after {
 .email-link span {
   font-size: 28px;
 }
+.contact-bottom .email-help {
+  margin-top: 8px;
+  font-size: 10px;
+}
 .site-footer {
   display: flex;
   align-items: center;

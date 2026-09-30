@@ -73,6 +73,8 @@ document.querySelectorAll("[data-project]").forEach((button) => {
     document.querySelector("#project-category").textContent = project.category;
     document.querySelector("#project-description").textContent =
       project.description;
+    document.querySelector("#project-enquiry").href =
+      `mailto:contact@ute.studio?subject=${encodeURIComponent(`Project enquiry: ${project.title}`)}`;
     const image = document.querySelector("#project-image");
     image.src = project.image;
     image.alt = project.alt;
