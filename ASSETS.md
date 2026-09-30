@@ -1,4 +1,12 @@
-# Generated campaign imagery
+# Asset provenance
+
+## Brand assets
+
+`site/assets/ute-studio-logo.svg` combines Manrope ExtraBold (800) for `ute`, Manrope Regular (400) for `studio`, an orange dot and an original eight-tooth gear drawn as SVG geometry. The lettering is converted to paths, so it renders consistently without an additional font download. Both weights are from Google Fonts' Manrope family under the SIL Open Font License; see `site/assets/manrope-OFL.txt`.
+
+`site/assets/favicon.svg` uses the same gear on the site's cream background. `brand/ute-studio-avatar.svg` is a square social profile variant with the outlined lettering inside the gear. These are vector artwork, not AI-generated raster images.
+
+## Generated campaign imagery
 
 Created on 30 September 2026 using the built-in imagegen tool. These are original, illustrative campaign concepts, not commissioned client work or exact product depictions. ImageMagick was used only for WebP encoding and a smaller hero variant. Product specifications must come from approved client references.
 
@@ -15,4 +23,3 @@ Use case: product-mockup. Asset type: website portfolio image, landscape 3:2 asp
 ### touring.webp
 
 Use case: ads-marketing. Asset type: creative studio portfolio campaign photograph, landscape 3:2 aspect ratio, 1536x1024. Cinematic Australian touring campaign featuring a generic unbranded sand-coloured dual cab ute with a black aluminium touring canopy and low rooftop tent packed closed, vehicle in lower middle of a sweeping outback landscape. Viewed rear three-quarter from a slightly elevated camera, realistic correct vehicle proportions. A dusty red winding track leads away across ochre plains with rugged escarpments and sparse spinifex, atmospheric late afternoon sky. A beautiful art-directed editorial photograph with film grain, amber sunlight on bodywork, deep muted shadows, luxurious quiet adventurous mood. Entire vehicle visible, substantial breathing room. No people, no text, no brands, no watermark. Illustrative concept, not an exact commercial product.
-

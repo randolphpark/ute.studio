@@ -24,6 +24,12 @@ npm run preview
 
 The build copies only `site/` into `dist/`, adds `.nojekyll`, and validates local assets and section links. It rejects empty links, bare `#` placeholders, insecure HTTP URLs and unsupported URL schemes. Playwright checks every navigation link, all three project previews and their images and enquiry addresses, all four service panels, keyboard dismissal, desktop and mobile layouts, asset loading and JavaScript errors. New link destinations must be covered by these checks before deployment.
 
+The generated HTML includes content-based version queries for CSS, JavaScript, the wordmark and favicon, so changed assets get fresh URLs after deployment.
+
+## Change workflow
+
+Create a feature branch and open a pull request for every new change. Do not push changes directly to `main`. Run the build and browser checks before requesting review, and wait for approval before merging. Merging into `main` triggers the existing Pages deployment; pull request checks do not publish the site.
+
 ## GitHub Pages deployment
 
 `.github/workflows/pages.yml` validates every pull request targeting `main`. Pushes to `main` and manual workflow runs build, test, upload the static artifact and deploy it to the `github-pages` environment. Deployment runs only after browser checks pass. No personal access token or external hosting account is needed by the workflow.
@@ -46,8 +52,9 @@ gh run list --workflow pages.yml
 - `site/index.html`: content, email address and SEO metadata.
 - `site/styles.css`: layout, fonts, colours, responsive rules and reduced-motion support.
 - `site/app.js`: mobile navigation and project preview content.
-- `site/assets/`: optimised WebP imagery, favicon and self-hosted fonts.
-- `ASSETS.md`: image provenance and the exact generation prompts.
+- `site/assets/`: optimised WebP imagery, SVG wordmark and favicon, and self-hosted fonts.
+- `brand/ute-studio-avatar.svg`: scalable square avatar for social profiles, kept outside the website build.
+- `ASSETS.md`: image and logo provenance and the exact image generation prompts.
 
 The work shown is self-initiated illustrative concept work. It is not presented as commissioned work for Stonegate Industries, MW Toolbox or other clients. The toolbox visual is an AI-generated study for possible 3D art direction, not a claim of a finished 3D production.
 
