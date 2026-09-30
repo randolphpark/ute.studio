@@ -113,26 +113,15 @@ summary:focus-visible {
   border-bottom: 1px solid var(--line);
 }
 .wordmark {
-  font-size: 36px;
-  font-weight: 700;
-  letter-spacing: -2.5px;
   line-height: 1;
   display: inline-flex;
-  align-items: baseline;
+  align-items: center;
+  flex-shrink: 0;
 }
-.logo-dot {
-  color: var(--orange);
-}
-.wordmark-studio {
-  font-weight: 400;
-  letter-spacing: -2px;
-}
-.brand-spark {
-  fill: var(--orange);
-  width: 23px;
-  height: 23px;
-  align-self: center;
-  margin-left: 11px;
+.wordmark img {
+  width: 221px;
+  height: auto;
+  object-fit: contain;
 }
 .site-header nav {
   display: flex;
@@ -881,8 +870,8 @@ details[open] .expand-icon::after {
   gap: 24px;
   min-height: 119px;
 }
-.site-footer .wordmark {
-  font-size: 29px;
+.site-footer .wordmark img {
+  width: 178px;
 }
 .site-footer > p {
   font-size: 10px;
@@ -1034,12 +1023,8 @@ dialog::backdrop {
     position: relative;
     z-index: 10;
   }
-  .wordmark {
-    font-size: 31px;
-  }
-  .brand-spark {
-    width: 20px;
-    height: 20px;
+  .wordmark img {
+    width: 193px;
   }
   .menu-toggle {
     display: flex;
@@ -1564,8 +1549,8 @@ dialog::backdrop {
   .contact-top .eyebrow {
     font-size: 6px;
   }
-  .site-footer .wordmark {
-    font-size: 26px;
+  .site-footer .wordmark img {
+    width: 160px;
   }
 }
 @media (prefers-reduced-motion: reduce) {

@@ -8,6 +8,7 @@ import {
   writeFile,
 } from "node:fs/promises";
 import { resolve, join } from "node:path";
+import { createHash } from "node:crypto";
 
 const source = resolve("site");
 const output = resolve("dist");
@@ -17,7 +18,7 @@ await mkdir(output, { recursive: true });
 await cp(source, output, { recursive: true });
 await writeFile(join(output, ".nojekyll"), "");
 
-const html = await readFile(join(output, "index.html"), "utf8");
+let html = await readFile(join(output, "index.html"), "utf8");
 const ids = [...html.matchAll(/\bid="([^"]+)"/g)].map((match) => match[1]);
 if (new Set(ids).size !== ids.length) throw new Error("Duplicate HTML IDs");
 const refs = [...html.matchAll(/\b(?:src|href|srcset)="([^"]+)"/g)].map(
@@ -46,6 +47,20 @@ for (const match of css.matchAll(/url\(['"]?([^)'"\s]+)['"]?\)/g))
   await stat(resolve(output, match[1]));
 if (!html.includes("mailto:contact@ute.studio"))
   throw new Error("Missing enquiry email");
+// Refresh changed code and branding even when browsers or Cloudflare cache assets.
+for (const asset of [
+  "styles.css",
+  "app.js",
+  "assets/ute-studio-logo.svg",
+  "assets/favicon.svg",
+]) {
+  const version = createHash("sha256")
+    .update(await readFile(join(output, asset)))
+    .digest("hex")
+    .slice(0, 12);
+  html = html.replaceAll(`"${asset}"`, `"${asset}?v=${version}"`);
+}
+await writeFile(join(output, "index.html"), html);
 let bytes = 0;
 async function measure(path) {
   for (const file of await readdir(path, { withFileTypes: true })) {
