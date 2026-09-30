@@ -1,0 +1,19 @@
+{
+  "name": "ute-studio",
+  "version": "1.0.0",
+  "private": true,
+  "description": "UTE Studio — AI-powered creative for ute, trade and touring brands.",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "node scripts/serve.mjs",
+    "build": "node scripts/build.mjs",
+    "preview": "node scripts/serve.mjs dist",
+    "test": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.63.0"
+  }
+}
